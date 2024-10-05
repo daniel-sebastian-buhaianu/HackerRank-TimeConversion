@@ -4,41 +4,25 @@ import java.security.*;
 import java.text.*;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.function.*;
 import java.util.regex.*;
-import java.util.stream.*;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 
 class Result {
-
-    /*
-     * Complete the 'timeConversion' function below.
-     *
-     * The function is expected to return a STRING.
-     * The function accepts STRING s as parameter.
-     */
-
     public static String timeConversion(String s) {
-        String timeOfDay = s.substring(s.length() - 2);
-        String hhmmss = s.substring(0, s.length()-2);
-        String mmss = hhmmss.substring(3);
+        int n = s.length();
+        int hour = Integer.parseInt(s.substring(0, 2));
+        String timeOfDay = s.substring(n - 2);
+        String restOfTime = s.substring(2, n - 2);
         
-        int hour = Integer.parseInt(hhmmss.substring(0, 2));
-        
-        if (timeOfDay.equals("AM")) {
-            if (hour == 12) {
-                return "00:".concat(mmss);
-            }
-            
-            return hhmmss;    
+        if (timeOfDay.equals("AM") && hour == 12)
+        {
+            hour = 0;
+        }
+        else if (timeOfDay.equals("PM") && hour < 12)
+        {
+            hour += 12;
         }
         
-        if (hour == 12) {
-            return hhmmss;
-        }
-            
-        return Integer.toString(hour + 12).concat(":").concat(mmss);
+        return String.format("%02d", hour) + restOfTime;
     }
 }
 
